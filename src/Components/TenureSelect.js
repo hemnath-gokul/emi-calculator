@@ -6,7 +6,7 @@ import Select from "@mui/material/Select";
 const TenureSelect = ({ data, setData }) => {
 
   const handleChange = (event) => {
-    setData({...data, loanTerm: event.target.value});
+    setData({ ...data, loanTerm: Number(event.target.value) });
   };
 
   return (
@@ -17,7 +17,6 @@ const TenureSelect = ({ data, setData }) => {
         id="demo-simple-select"
         value={data.loanTerm}
         label="Tenure"
-        defaultValue={5}
         onChange={handleChange}
       >
         <MenuItem value={5}>5 years</MenuItem>

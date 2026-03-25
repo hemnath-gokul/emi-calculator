@@ -1,6 +1,7 @@
 import React from "react";
 // import { Container, Typography } from "@mui/material";
 import SliderComponent from "./Common/SliderComponent";
+import { toSafeNumber } from "../utils/emi";
 
 const SliderSelect = ({ data, setData }) => {
   const bank_limit = 10000000;
@@ -8,14 +9,14 @@ const SliderSelect = ({ data, setData }) => {
     <div>
       <SliderComponent
         onChange={(e, value) => {
+          const safeValue = toSafeNumber(value);
           setData({
             ...data,
-            homeValue: value.toFixed(0),
-            downPayment: (0.2 * value).toFixed(0),
-            loanAmount: (0.8 * value).toFixed(0),
+            homeValue: Math.round(safeValue),
+            downPayment: Math.round(0.2 * safeValue),
+            loanAmount: Math.round(0.8 * safeValue),
           });
         }}
-        defaultValue={data.homeValue}
         min={100000}
         max={bank_limit}
         steps={100000}
@@ -26,14 +27,14 @@ const SliderSelect = ({ data, setData }) => {
       />
 
       <SliderComponent
-        onChange={(e, value) =>
+        onChange={(e, value) => {
+          const safeValue = toSafeNumber(value);
           setData({
             ...data,
-            downPayment: value.toFixed(0),
-            loanAmount: (data.homeValue - value).toFixed(0),
-          })
-        }
-        defaultValue={data.downPayment}
+            downPayment: Math.round(safeValue),
+            loanAmount: Math.round(data.homeValue - safeValue),
+          });
+        }}
         min={0}
         max={data.homeValue}
         steps={10000}
@@ -44,14 +45,14 @@ const SliderSelect = ({ data, setData }) => {
       />
 
       <SliderComponent
-        onChange={(e, value) =>
+        onChange={(e, value) => {
+          const safeValue = toSafeNumber(value);
           setData({
             ...data,
-            loanAmount: value.toFixed(0),
-            downPayment: (data.homeValue - value).toFixed(0),
-          })
-        }
-        defaultValue={data.loanAmount}
+            loanAmount: Math.round(safeValue),
+            downPayment: Math.round(data.homeValue - safeValue),
+          });
+        }}
         min={0}
         max={data.homeValue}
         steps={10000}
@@ -65,10 +66,9 @@ const SliderSelect = ({ data, setData }) => {
         onChange={(e, value) =>
           setData({
             ...data,
-            interestRate: value.toFixed(0),
+            interestRate: toSafeNumber(value),
           })
         }
-        defaultValue={data.interestRate}
         min={2}
         max={20}
         steps={0.5}
